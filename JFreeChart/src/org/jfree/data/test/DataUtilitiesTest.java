@@ -496,4 +496,184 @@ public class DataUtilitiesTest extends DataUtilities {
 		 //
 	 }
 
+	 // Testing getCumulativePercentages(KeyedValues data)
+		// EQUIVALENCE CLASSES
+		
+		// Test a null data parameter
+		@Test(expected = InvalidParameterException.class)
+		public void getCumulativePercentagesNullData() {
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(null);
+		}
+		
+		// Test a non-null data parameter
+		@Test
+		public void getCumulativePercentagesNonNullData() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(3));
+					allowing(keyedValues).getKeys();
+					will(returnIterator(0, 1, 2));
+					allowing(keyedValues).getValue(0);
+					will(returnValue(5));
+					allowing(keyedValues).getValue(1);
+					will(returnValue(9));
+					allowing(keyedValues).getValue(2);
+					will(returnValue(2));
+					allowing(keyedValues).getKey(0);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(1);
+					will(returnValue(1));
+					allowing(keyedValues).getKey(2);
+					will(returnValue(2));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+			assertNotNull("Cumulative percentage return value should not be null", actualCumulativePercentage);
+		}
+		
+		// Test empty data
+		@Test
+		public void getCumulativePercentagesEmptyData() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(0));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+			assertEquals("Cumulative percentage return value for empty data argument should have 0 items", 0, actualCumulativePercentage.getItemCount());
+		}
+		
+		// Test non-empty, non-zero data
+		@Test
+		public void getCumulativePercentagesNonEmptyData() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(3));
+					allowing(keyedValues).getKeys();
+					will(returnIterator(0, 1, 2));
+					allowing(keyedValues).getValue(0);
+					will(returnValue(5));
+					allowing(keyedValues).getValue(1);
+					will(returnValue(9));
+					allowing(keyedValues).getValue(2);
+					will(returnValue(2));
+					allowing(keyedValues).getKey(0);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(1);
+					will(returnValue(1));
+					allowing(keyedValues).getKey(2);
+					will(returnValue(2));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+			assertEquals("Cumulative percentage return value for index 1 should be 0.875", 0.875, actualCumulativePercentage.getValue(1));
+		}
+		
+		// Test data with only zero for values
+		@Test
+		public void getCumulativePercentagesDataHasOnlyZeroes() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(3));
+					allowing(keyedValues).getKeys();
+					will(returnIterator(0, 1, 2));
+					allowing(keyedValues).getValue(0);
+					will(returnValue(0));
+					allowing(keyedValues).getValue(1);
+					will(returnValue(0));
+					allowing(keyedValues).getValue(2);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(0);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(1);
+					will(returnValue(1));
+					allowing(keyedValues).getKey(2);
+					will(returnValue(2));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+			assertTrue("Cumulative percentage return value for data argument with only zeroes should be NaN", Double.isNaN((double)actualCumulativePercentage.getValue(0)));
+		}
+		
+		// Test data with some zero and non-zero values
+		@Test
+		public void getCumulativePercentagesDataHasZeroesAndNonZeroes() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(3));
+					allowing(keyedValues).getKeys();
+					will(returnIterator(0, 1, 2));
+					allowing(keyedValues).getValue(0);
+					will(returnValue(5));
+					allowing(keyedValues).getValue(1);
+					will(returnValue(0));
+					allowing(keyedValues).getValue(2);
+					will(returnValue(2));
+					allowing(keyedValues).getKey(0);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(1);
+					will(returnValue(1));
+					allowing(keyedValues).getKey(2);
+					will(returnValue(2));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+			assertEquals("Cumulative percentage return value for index 0 should be 0.714", 5.0/7.0, actualCumulativePercentage.getValue(0));
+		}
+		
+		// Test data with negative values
+		@Test(expected = InvalidParameterException.class)
+		public void getCumulativePercentagesDataHasNegativeValues() {
+			Mockery mockingContext = new Mockery();
+			final KeyedValues keyedValues = mockingContext.mock(KeyedValues.class);
+			
+			mockingContext.checking(new Expectations() {
+				{
+					allowing(keyedValues).getItemCount();
+					will(returnValue(3));
+					allowing(keyedValues).getKeys();
+					will(returnIterator(0, 1, 2));
+					allowing(keyedValues).getValue(0);
+					will(returnValue(-5));
+					allowing(keyedValues).getValue(1);
+					will(returnValue(-9));
+					allowing(keyedValues).getValue(2);
+					will(returnValue(-2));
+					allowing(keyedValues).getKey(0);
+					will(returnValue(0));
+					allowing(keyedValues).getKey(1);
+					will(returnValue(1));
+					allowing(keyedValues).getKey(2);
+					will(returnValue(2));
+				}
+			});
+			
+			KeyedValues actualCumulativePercentage = DataUtilities.getCumulativePercentages(keyedValues);
+		}
+
 }

@@ -17,6 +17,231 @@ public class DataUtilitiesTest extends DataUtilities {
 	// public void test() {
 	// fail("Not yet implemented");
 	// }
+	
+	@Test (expected = InvalidParameterException.class)
+	 public void testCalculateRowTotalNullData() throws InvalidParameterException {
+	     
+		DataUtilities.calculateRowTotal(null, 0);
+	 }
+	
+	@Test
+	 public void testCalculateRowTotalPositiveValues() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(2));
+	            one(values).getRowCount();
+	            will(returnValue(1));
+	            one(values).getValue(0, 0);
+	            will(returnValue(4.0));
+	            one(values).getValue(0, 1);
+	            will(returnValue(4.0));	            
+	        }
+	    });
+
+	     double calculationResult = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Row 0 total after 4.0 + 4.0", 8.0, calculationResult, .000000001d);
+	 }
+	
+	@Test
+	 public void testCalculateRowTotalNegativeValues() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(2));
+	            one(values).getRowCount();
+	            will(returnValue(1));
+	            one(values).getValue(0, 0);
+	            will(returnValue(-2.0));
+	            one(values).getValue(0, 1);
+	            will(returnValue(-12.0));
+	        }
+	    });
+
+	     double calculationResult = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Row 0 total after -2.0 + -12.0", -14.0, calculationResult, .000000001d);
+	 }
+	
+	@Test
+	 public void testCalculateRowTotalPositiveNegativeValues() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(3));
+	            one(values).getRowCount();
+	            will(returnValue(1));
+	            one(values).getValue(0, 0);
+	            will(returnValue(2.0));
+	            one(values).getValue(0, 1);
+	            will(returnValue(-12.0));
+	            one(values).getValue(0, 2);
+	            will(returnValue(-11.0));
+	        }
+	    });
+
+	     double calculationResult = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Row 0 total after 2.0 + -12.0 + -11.0", -21.0, calculationResult, .000000001d);
+	 }
+	
+	@Test
+	 public void testCalculateRowTotalEmptyRow() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(0));
+	            one(values).getRowCount();
+	            will(returnValue(0));
+	        }
+	    });
+
+	     double calculationResult = DataUtilities.calculateRowTotal(values, 0);
+	     assertEquals("Calculate total of empty row", 0, calculationResult, .000000001d);
+	 }
+	
+	@Test 
+	 public void testCalculateRowTotalNegativeRowIndex() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(2));
+	            one(values).getRowCount();
+	            will(returnValue(1));
+	            one(values).getValue(0, 0);
+	            will(returnValue(4.0));
+	            one(values).getValue(0, 1);
+	            will(returnValue(4.0));
+
+	        }
+	    });
+	     
+		double calculationResult = DataUtilities.calculateRowTotal(values, -1);
+	    assertEquals("Calculate total with negative row index should be zero", 0.0, calculationResult, .000000001d);
+		
+	 }
+	
+	@Test
+	 public void testCalculateRowTotalRowIndexAUB() {
+		
+		Mockery mockingContext = new Mockery();
+	    final Values2D values = mockingContext.mock(Values2D.class);
+	    mockingContext.checking(new Expectations() {
+	        {
+	            one(values).getColumnCount();
+	            will(returnValue(2));
+	            one(values).getRowCount();
+	            will(returnValue(1));
+	            one(values).getValue(0, 0);
+	            will(returnValue(4.0));
+	            one(values).getValue(0, 1);
+	            will(returnValue(4.0));
+	        }
+	    });
+	     
+		double calculationResult = DataUtilities.calculateRowTotal(values, 1);
+	    assertEquals("Calculate total with AUB row index should be zero", 0.0, calculationResult, .000000001d);
+		
+	 }
+	
+	@Test (expected = InvalidParameterException.class)
+	 public void testCreateNumberArrayNullData() throws InvalidParameterException {
+		
+		double[] inputData = null;
+	     
+	    DataUtilities.createNumberArray(inputData);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayEmptyData() {
+		
+		double[] inputData = {};
+		Number[] expectedData = {};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with empty data", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayPositiveValues() {
+		
+		double[] inputData = {4.0, 4.0, 12.0, 14.0};
+		Number[] expectedData = {4.0, 4.0, 12.0, 14.0};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with positive values", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayNegativeValues() {
+		
+		double[] inputData = {-1.0, -2.0, -3.0, -4.0};
+		Number[] expectedData = {-1.0, -2.0, -3.0, -4.0};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with negative values", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayPositiveDecimalValues() {
+		
+		double[] inputData = {1.11, 2.22, 3.33, 4.44};
+		Number[] expectedData = {1.11, 2.22, 3.33, 4.44};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with positive decimal values", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayNegativeDecimalValues() {
+		
+		double[] inputData = {-1.11, -2.22, -3.33, -4.44};
+		Number[] expectedData = {-1.11, -2.22, -3.33, -4.44};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with positive decimal values", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayLBValues() {
+		
+		double[] inputData = {Double.MIN_NORMAL};
+		Number[] expectedData = {Double.MIN_NORMAL};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with smallest positive normal value", expectedData, arrayResult);
+		
+	 }
+	
+	@Test
+	 public void testCreateNumberArrayUBValues() {
+		
+		double[] inputData = {Double.MAX_VALUE};
+		Number[] expectedData = {Double.MAX_VALUE};
+	     
+	    Number[] arrayResult = DataUtilities.createNumberArray(inputData);
+	    assertArrayEquals("Creating array with largest positive value", expectedData, arrayResult);
+		
+	 }
 
 	// Testing calculateColumnTotal(Values2D data, int column)
 

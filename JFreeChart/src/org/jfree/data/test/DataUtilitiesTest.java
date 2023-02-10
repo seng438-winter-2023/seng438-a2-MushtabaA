@@ -18,12 +18,15 @@ public class DataUtilitiesTest extends DataUtilities {
 	// fail("Not yet implemented");
 	// }
 	
+	// Testing invalid parameter with data as null
+	
 	@Test (expected = InvalidParameterException.class)
 	 public void testCalculateRowTotalNullData() throws InvalidParameterException {
 	     
 		DataUtilities.calculateRowTotal(null, 0);
 	 }
 	
+	// Testing valid row index and data parameter which contains positive values
 	@Test
 	 public void testCalculateRowTotalPositiveValues() {
 		
@@ -46,6 +49,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Row 0 total after 4.0 + 4.0", 8.0, calculationResult, .000000001d);
 	 }
 	
+	// Testing valid row index and data parameter which contains negative values
 	@Test
 	 public void testCalculateRowTotalNegativeValues() {
 		
@@ -68,6 +72,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Row 0 total after -2.0 + -12.0", -14.0, calculationResult, .000000001d);
 	 }
 	
+	// Testing valid row index and data parameter which contains positive and negative values
 	@Test
 	 public void testCalculateRowTotalPositiveNegativeValues() {
 		
@@ -92,6 +97,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Row 0 total after 2.0 + -12.0 + -11.0", -21.0, calculationResult, .000000001d);
 	 }
 	
+	// Testing valid row index and data parameter with empty row
 	@Test
 	 public void testCalculateRowTotalEmptyRow() {
 		
@@ -110,6 +116,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Calculate total of empty row", 0, calculationResult, .000000001d);
 	 }
 	
+	// Testing invalid negative row index
 	@Test 
 	 public void testCalculateRowTotalNegativeRowIndex() {
 		
@@ -134,6 +141,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing invalid row index above upper bound
 	@Test
 	 public void testCalculateRowTotalRowIndexAUB() {
 		
@@ -157,6 +165,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing invalid null data parameter
+	
 	@Test (expected = InvalidParameterException.class)
 	 public void testCreateNumberArrayNullData() throws InvalidParameterException {
 		
@@ -165,6 +175,8 @@ public class DataUtilitiesTest extends DataUtilities {
 	    DataUtilities.createNumberArray(inputData);
 		
 	 }
+	
+	// Testing empty data parameter
 	
 	@Test
 	 public void testCreateNumberArrayEmptyData() {
@@ -177,6 +189,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with positive values
 	@Test
 	 public void testCreateNumberArrayPositiveValues() {
 		
@@ -188,6 +201,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with negative values
+
 	@Test
 	 public void testCreateNumberArrayNegativeValues() {
 		
@@ -199,6 +214,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with positive decimal values
+
 	@Test
 	 public void testCreateNumberArrayPositiveDecimalValues() {
 		
@@ -210,6 +227,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with negative decimal values
+
 	@Test
 	 public void testCreateNumberArrayNegativeDecimalValues() {
 		
@@ -221,6 +240,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with smallest normal value
+
 	@Test
 	 public void testCreateNumberArrayLBValues() {
 		
@@ -232,6 +253,8 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 	 }
 	
+	// Testing valid data parameter with maximum positive value
+
 	@Test
 	 public void testCreateNumberArrayUBValues() {
 		

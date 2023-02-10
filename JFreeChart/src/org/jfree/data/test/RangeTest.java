@@ -210,16 +210,6 @@ public class RangeTest {
 	    	Double.MAX_VALUE, input, .000000001d);
 	    }
 	    
-//	    //testing zero value and positive value range 
-//	    @Test
-//	    public void upperBoundZeroRange() {
-//	    	Range data = new Range(0, 5.0);	//Set Range
-//	    	double input = data.getUpperBound();	//push value through method
-//	    	//assert value with input
-//	    	assertEquals("The upper bound of null and 5.0 should be 5.0",
-//	    	5.0, input, .000000001d);
-//	    }
-	    
 	    //-------------getUpperBound() Test End------------------
 	    
 	    //-------------constrain() Test Start------------------
@@ -287,6 +277,89 @@ public class RangeTest {
 	    }
 	    
 	    //-------------constrain() Test End------------------
+
+		// Testing intersect()
+		
+		// EQUIVALENCE CLASS TESTING
+		// Test if equal ranges intersect
+		@Test
+		public void testIntersectEqualRanges() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(0, 10);
+			assertEquals("Equal ranges should intersect", expectedIntersect, actualIntersect);
+		}
+		
+		// Test if ranges intersect when one range's upper bound is greater than another's lower bound
+		@Test
+		public void testIntersectRangeOneUpperBoundGreaterThanRangeTwoLowerBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(5, 30);
+			assertEquals("Ranges should intersect when one range's upper bound is greater than another's lower bound", expectedIntersect, actualIntersect);
+		}
+		
+		// Test if ranges intersect when one range's lower bound is less than another's upper bound
+		@Test
+		public void testIntersectRangeOneLowerBoundLessThanRangeTwoUpperBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(-10, 5);
+			assertEquals("Ranges should intersect when one range's lower bound is less than another's upper bound", expectedIntersect, actualIntersect);
+		}
+		
+		// Test if ranges do not intersect when one range's upper bound is less than another's upper bound
+		@Test
+		public void testIntersectRangeOneUpperBoundLessThanRangeTwoLowerBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = false;
+			boolean actualIntersect = sampleRange.intersects(15, 30);
+			assertEquals("Ranges should not intersect when one range's upper bound is less than another's lower bound", expectedIntersect, actualIntersect);
+		}
+		
+		// Test if ranges do not intersect when one range's lower bound is greater than another's upper bound
+		@Test
+		public void testIntersectRangeOneLowerBoundGreaterThanRangeTwoUpperBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = false;
+			boolean actualIntersect = sampleRange.intersects(-30, -15);
+			assertEquals("Ranges should not intersect when one range's lower bound is greater than another's upper bound", expectedIntersect, actualIntersect);
+		}
+		
+		// BOUNDARY VALUE TESTING
+		// Test if ranges intersect when both ranges' bounds are equal (i.e. upper == lower)
+		@Test
+		public void testIntersectMinimalRangeBounds() {
+			Range sampleRange = new Range(0,0);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(0, 0);
+			assertEquals("Ranges should intersect when both ranges' lower bounds are the same as their upper bounds", expectedIntersect, actualIntersect);
+		}
+		// Test if ranges intersect when one range's upper bound is equal to another's lower bound
+		@Test
+		public void testIntersectRangeOneUpperBoundEqualToRangeTwoLowerBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(10, 30);
+			assertEquals("Ranges should intersect when one range's upper bound is equal to another's lower bound", expectedIntersect, actualIntersect);
+		}
+		
+		// Test if ranges intersect when one range's lower bound is equal to another's upper bound
+		@Test
+		public void testIntersectRangeOneLowerBoundEqualToRangeTwoUpperBound() {
+			Range sampleRange = new Range(0, 10);
+			
+			boolean expectedIntersect = true;
+			boolean actualIntersect = sampleRange.intersects(-10, 0);
+			assertEquals("Ranges should intersect when one range's lower bound is equal to another's upper bound", expectedIntersect, actualIntersect);
+		}
 		
 		
 	

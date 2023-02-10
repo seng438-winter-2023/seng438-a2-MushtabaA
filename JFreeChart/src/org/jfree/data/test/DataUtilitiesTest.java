@@ -10,6 +10,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.ExpectationError;
 import org.junit.Test;
+import org.jfree.data.KeyedValues;
 
 public class DataUtilitiesTest extends DataUtilities {
 

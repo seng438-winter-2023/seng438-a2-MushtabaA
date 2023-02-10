@@ -152,5 +152,100 @@ public class DataUtilitiesTest extends DataUtilities {
 		double actualColumnTotal = DataUtilities.calculateColumnTotal(values, -1);
 		assertEquals("The column total should be 0", expectedColumnTotal, actualColumnTotal, .000000001d);
 	}
+	
+	 //Parbir Code
+	 //createNumberArray2D(double[][] data) Tests
+	 
+	 /** 
+	  * This test is creates an array of array of Number objects by accepting double primitives.  
+	  * This test asserts that a 2 row, 2 column positive value array of double is created. 
+	  * **/
+	 
+	 @Test
+	 public void createNumber2DArrayPositive() {
+		 //create expected array
+		 Number[][] expectedArray = {{1, 5},{2, 6}};
+		 //create array of double to pass through the method
+		 double[][] inputArray = {{1, 5},{2, 6}};
+		 //call method to create Number array of arrays
+		 Number[][] actualArray = DataUtilities.createNumberArray2D(inputArray);
+		 //assert actual and expected array of arrays
+		 assertArrayEquals(expectedArray, actualArray);
+	 }
+	 
+	 
+	 /** 
+	  * This test is creates an array of array of Number objects by accepting double primitives.  
+	  * This test asserts that a 2 row, 2 column negative value array of double is created. 
+	  * **/
+	 
+	 @Test
+	 public void createNumber2DArrayNegative() {
+		 //create expected array
+		 Number[][] expectedArray = {{-1, -5},{-2, -6}};
+		 //create array of double to pass through the method
+		 double[][] inputArray = {{-1, -5},{-2, -6}};
+		 //call method to create Number array of arrays
+		 Number[][] actualArray = DataUtilities.createNumberArray2D(inputArray);
+		 //assert actual and expected array of arrays
+		 assertArrayEquals(expectedArray, actualArray);
+	 }
+	 
+	 /** 
+	  * This test is creates an array of array of Number objects by accepting double primitives.  
+	  * This test asserts that a 2 row, 2 column positive decimal value array of double is created. 
+	  * **/
+	 
+	 @Test
+	 public void createNumber2DArrayPositiveDecimal() {
+		 //create expected array
+		 Number[][] expectedArray = {{1.0, 5.0},{2.0, 6.0}};
+		 //create array of double to pass through the method
+		 double[][] inputArray = {{1.0, 5.0},{2.0, 6.0}};
+		 //call method to create Number array of arrays
+		 Number[][] actualArray = DataUtilities.createNumberArray2D(inputArray);
+		 //assert actual and expected array of arrays
+		 assertArrayEquals(expectedArray, actualArray);
+	 }
+	 
+	 /** 
+	  * This test is creates an array of array of Number objects by accepting double primitives.  
+	  * This test asserts that a 2 row, 2 column negative decimal value array of double is created. 
+	  * **/
+	 
+	 @Test
+	 public void createNumber2DArrayNegativeDecimals() {
+		 //create expected array
+		 Number[][] expectedArray = {{-1.0, -5.0},{-2.0, -6.0}};
+		 //create array of double to pass through the method
+		 double[][] inputArray = {{-1.0, -5.0},{-2.0, -6.0}};
+		 //call method to create Number array of arrays
+		 Number[][] actualArray = DataUtilities.createNumberArray2D(inputArray);
+		 //assert actual and expected array of arrays
+		 assertArrayEquals(expectedArray, actualArray);
+	 }
+	 
+	 
+	 /** 
+	  * This test is creates an array of array of Number objects by accepting double primitives.  
+	  * This test asserts that a null 2D array passed into createNumberArray2D
+	  * The assert will throw an exception 
+	  * **/
+	 
+	 @Test (expected = InvalidParameterException.class)
+	 public void createNumber2DArrayNull() throws InvalidParameterException{
+		 //try{
+			 //create null array to pass through the method
+			 double[][] inputArray = null;
+			 //call method
+			 DataUtilities.createNumberArray2D(inputArray);
+			// fail("Should have thrown illegal argument exception");
+		 	
+		 	
+		 //} catch (Exception e) {
+			// assertEquals("The exception e thorwn type IllegalArgumentException",
+			//		 IllegalArgumentException.class, e.getClass());
+		 //
+	 }
 
 }

@@ -160,6 +160,134 @@ public class RangeTest {
 			assertEquals("-24 should exist in range of -42 to -24", expectedContains, actualContains);
 		}
 		
+	    //-------------getUpperBound() Test Start------------------
+	    
+	    //testing method getUpperBound() for case where upper bound != lower bound
+	    @Test
+	    public void upperBoundRange() {
+	    	//assert value with input
+	    	assertEquals("The upper bound of -1 and 1 should be 1",
+	    	1, exampleRange.getUpperBound(), .000000001d);
+	    }
+	    
+	    //testing same range (equal value range)
+	    @Test
+	    public void upperBoundEqualRange() {
+	    	Range data = new Range(1, 1);	//Set Range
+	    	double input = data.getUpperBound();	//push value through method
+	    	//assert value with input
+	    	assertEquals("The upper bound of 1 and 1 should be 1",
+	    	1, input, .000000001d);
+	    }
+	    
+	    //testing only positive range
+	    @Test
+	    public void upperBoundPositiveRange() {
+	    	Range data = new Range(1.0, 2.0);	//Set Range
+	    	double input = data.getUpperBound();	//push value through method
+	    	//assert value with input
+	    	assertEquals("The upper bound of 1.0 and 2.0 should be 2.0",
+	    	2.0, input, .000000001d);
+	    }
+	    
+	    //testing negative range
+	    @Test
+	    public void upperBoundNegativeRange() {
+	    	Range data = new Range(-1.0, -0.5);	//Set Range
+	    	double input = data.getUpperBound();	//push value through method
+	    	//assert value with input
+	    	assertEquals("The upper bound of -1.0 and -0.5 should be -0.5",
+	    	-0.5, input, .000000001d);
+	    }
+	    
+	    //testing max and minimum range
+	    @Test
+	    public void upperBoundMaxMinRange() {
+	    	Range data = new Range(Double.MIN_VALUE, Double.MAX_VALUE);	//Set Range
+	    	double input = data.getUpperBound();	//push value through method
+	    	//assert value with input
+	    	assertEquals("The upper bound of Min and Max should be Max",
+	    	Double.MAX_VALUE, input, .000000001d);
+	    }
+	    
+//	    //testing zero value and positive value range 
+//	    @Test
+//	    public void upperBoundZeroRange() {
+//	    	Range data = new Range(0, 5.0);	//Set Range
+//	    	double input = data.getUpperBound();	//push value through method
+//	    	//assert value with input
+//	    	assertEquals("The upper bound of null and 5.0 should be 5.0",
+//	    	5.0, input, .000000001d);
+//	    }
+	    
+	    //-------------getUpperBound() Test End------------------
+	    
+	    //-------------constrain() Test Start------------------
+	    
+	    //positive range test
+	    @Test
+	    public void positiveConstrain() {
+	    	Range data = new Range(1, 10); //Set Range
+	    	double input = data.constrain(9);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of 9 in range 1 and 10 should be 10"
+	    			, 10, input, .000000001d);
+	    }
+	    
+	    //negative range test
+	    @Test
+	    public void negativeConstrain() {
+	    	Range data = new Range(-10, -1);	//Set Range
+	    	double input = data.constrain(-9);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of -9 in range -10 and -1 should be -10"
+	    			, -10, input, .000000001d);
+	    }
+	    
+	    //equal range test
+	    @Test
+	    public void equalConstrain() {
+	    	Range data = new Range(1, 1);	//Set Range
+	    	double input = data.constrain(1);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of 1 in range 1 and 1 should be 1"
+	    			, 1, input, .000000001d);
+	    }
+	    
+	    //decimal range test
+	    @Test
+	    public void decimalConstrain() {
+	    	Range data = new Range(-1.0, 1.0);	//Set Range
+	    	double input = data.constrain(0.5);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of 0.5 in range -1.0 and 1.0 should be 1.0"
+	    			, 1.0, input, .000000001d);
+	    }
+	    
+	    
+	    //max and min test
+	    @Test
+	    public void maxMinConstrain() {
+	    	Range data = new Range(Double.MIN_VALUE, Double.MAX_VALUE);	//Set Range
+	    	double input = data.constrain(10);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of 10 in range Min and Max should be Max"
+	    			, Double.MAX_VALUE, input, .000000001d);
+	    }
+	    
+	    //Passing an out of range value in constrain method
+	    //Supposed to throw an out of bounds exception
+	    @Test
+	    public void outOfRangeConstrain() {
+	    	Range data = new Range(1, 1);	//Set Range
+	    	double input = data.constrain(5);	//push value through method
+	    	//assert value with input
+	    	assertEquals("The constrain of 5 in range 1 and 1 should result in an OutOfBounds Error"
+	    			, 1, input, .000000001d);
+	    }
+	    
+	    //-------------constrain() Test End------------------
+		
 		
 	
 	// ! Provided by SENG 438 Lab Document
